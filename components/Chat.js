@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   // styling for pkaceholder
   titleText: {
     fontSize: 32,
-    color: "yellow",
+    color: "red",
   },
 });
 

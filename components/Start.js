@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     width: "88%",
   },
 
+  //Icon for textInput
   icon: {
     width: 24,
     height: 24,
@@ -139,32 +140,16 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
 
+  //textInput
   textInput: {
     flex: 1,
     fontSize: 16,
     fontWeight: "300",
     paddingVertical: 15,
   },
-  button: {
-    backgroundColor: "#757083",
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 5, // for Android
-  },
 
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-
-  colorSection: {
+  //Background color selection
+colorSection: {
     width: "88%",
     alignSelf: "center",
     marginTop: 10,
