@@ -1,4 +1,4 @@
-//Start.js - The start screen is where users will enter their name to join in the chat, choose a background color for their chat screen, and enter the chat via a "Start Chat button".
+//Start.js - The start screen is where users will enter their name to join in the chat, choose a background color for their chat screen, and enter the chat.
 
 import { useState } from "react";
 import {
@@ -13,33 +13,27 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
-//  Start screen component functionality. This is the user entry point where the user enters their name and background color choice. When they navigate to the app, these valuse (name, bgColor ) are passed in as parameters.
+// The navigation prop from React Navigation - used to navigate to the Chat screen and pass data (name and background color).
 const Start = ({ navigation }) => {
-  //State to store users name (used to store and display the users name in the Chat.js UI)
-  const [name, setName] = useState("");
+  const [name, setName] = useState(""); // Users name input
 
-  //State to store background color (and display in Chat.js UI)
-  const [bgColor, setBgColor] = useState("#FFFFFF");
+  const [bgColor, setBgColor] = useState("#FFFFFF"); // Selected chat background color
 
-  //This is the backgound image from Assets folder displayed on the start screen (Located in root directory)
-  const image = require("../assets/Bgnd_Image.png");
+  const image = require("../assets/Bgnd_Image.png"); // Background image for start screen
 
-  //This is the colors array available for the user chosen background color
-  const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"];
+  const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"]; //Preset color options
 
   return (
     <KeyboardAvoidingView
+      //Preventing keyboard from covering inputs on start screen for ios
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {/*Background image on start screen */}
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        {/* App Title - This is a working title and depending on where it is to be used in the app, could be moved to a separate text component*/}
-        <Text style={styles.titleText}>Chat App</Text>
-
-        {/*White background container on start page. This is the background of the container that holds the form for text input, color picker and start chat button*/}
+        <Text style={styles.titleText}>Chat App</Text>{" "}
+        {/* Working title for app */}
+        {/* Form section: includes name input, color options, and start button  */}
         <View style={styles.whiteBox}>
-          {/*Username input field with icon. When the user inputs their name, the text is stored in local state and displayed at the top of the chat.js*/}
           <View style={styles.inputWrapper}>
             <Image
               source={require("../assets/icon2.png")}
@@ -55,7 +49,7 @@ const Start = ({ navigation }) => {
             />
           </View>
 
-          {/*Background Color Picker section - the user selects one of the pre-defined color options which is then passed as a prop to the chat screen*/}
+          {/*Select a Background Color*/}
           <View style={styles.colorSection}>
             <Text style={styles.colorLabel}>Choose Background Color</Text>
             <View style={styles.colorOptions}>
@@ -78,7 +72,7 @@ const Start = ({ navigation }) => {
               ))}
             </View>
           </View>
-          {/*Button to navigate to chat screen. This passes the usersname and selected bground color as navigation parameters to display on the chat screen. Using TouchableOpacity instead of Button for more styling options*/}
+          {/*Navigate to chat screen passing name and setting background color*/}
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
@@ -96,10 +90,9 @@ const Start = ({ navigation }) => {
   );
 };
 
-//Define styling for all sections of start screen
 const styles = StyleSheet.create({
   container: {
-    flex: 1, //Fill entire screen
+    flex: 1,
   },
 
   image: {
@@ -107,9 +100,9 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: "6%", //vertical spacing
+    paddingVertical: "6%",
   },
-  //Title style and positioning
+  //Title style
   titleText: {
     fontSize: 45,
     fontWeight: "600",
@@ -179,7 +172,7 @@ const styles = StyleSheet.create({
     gap: 15,
     marginBottom: 10,
   },
-  //Outer circlefor each color option (Border and spacing)
+  //Outer circle for each color option (Border and spacing)
   colorOuterCircle: {
     width: 44,
     height: 44,
@@ -195,7 +188,7 @@ const styles = StyleSheet.create({
     borderColor: "#5F5F5F", // outer ring color
     backgroundColor: "#FFFFFF", // the white rim
   },
-  //Inner filled color sample circle
+  //Inner circle for each color option
   colorInnerCircle: {
     width: 36,
     height: 36,
