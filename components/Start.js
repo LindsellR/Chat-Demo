@@ -9,10 +9,12 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 
 //  Start screen component functionality. This is the user entry point where the user enters their name and background color choice. When they navigate to the app, these valuse (name, bgColor ) are passed in as parameters.
-const Start = ({navigation}) => {
+const Start = ({ navigation }) => {
   //State to store users name (used to store and display the users name in the Chat.js UI)
   const [name, setName] = useState("");
 
@@ -26,17 +28,17 @@ const Start = ({navigation}) => {
   const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"];
 
   return (
-    <View style={styles.container}>
-
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       {/*Background image on start screen */}
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-
         {/* App Title - This is a working title and depending on where it is to be used in the app, could be moved to a separate text component*/}
         <Text style={styles.titleText}>Chat App</Text>
 
         {/*White background container on start page. This is the background of the container that holds the form for text input, color picker and start chat button*/}
         <View style={styles.whiteBox}>
-
           {/*Username input field with icon. When the user inputs their name, the text is stored in local state and displayed at the top of the chat.js*/}
           <View style={styles.inputWrapper}>
             <Image
@@ -90,7 +92,7 @@ const Start = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
