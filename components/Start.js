@@ -9,27 +9,34 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 
-// The `navigation` prop from React Navigation is being used to navigate to the Chat screen and pass data (name and background color).
-const Start = ({navigation}) => {
-  
+
+// The navigation prop from React Navigation - used to navigate to the Chat screen and pass data (name and background color).
+const Start = ({ navigation }) => {
   const [name, setName] = useState(""); // Users name input
 
-  const [bgColor, setBgColor] = useState("#FFFFFF"); //Selected chat background color
+  const [bgColor, setBgColor] = useState("#FFFFFF"); // Selected chat background color
 
-  const image = require("../assets/Bgnd_Image.png"); //Background image for start screen
+  const image = require("../assets/Bgnd_Image.png"); // Background image for start screen
+
 
   const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"]; //Preset color options
 
   return (
-    <View style={styles.container}>
+
+    <KeyboardAvoidingView
+      //Preventing keyboard from covering inputs on start screen for ios
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <Text style={styles.titleText}>Chat App</Text> {/*working title for app*/}
-
-        {/* Form section: includes name input, color options, and start button */}
+        <Text style={styles.titleText}>Chat App</Text>{" "}
+        {/* Working title for app */}
+        {/* Form section: includes name input, color options, and start button  */}
         <View style={styles.whiteBox}>
-
           <View style={styles.inputWrapper}>
             <Image
               source={require("../assets/icon2.png")}
@@ -45,7 +52,9 @@ const Start = ({navigation}) => {
             />
           </View>
 
-          {/*Select a background color*/}
+
+          {/*Select a Background Color*/}
+
           <View style={styles.colorSection}>
             <Text style={styles.colorLabel}>Choose Background Color</Text>
             <View style={styles.colorOptions}>
@@ -82,14 +91,15 @@ const Start = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
+
   },
 
   image: {
@@ -97,9 +107,11 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: "6%", //vertical spacing
+    paddingVertical: "6%",
   },
-  //Title style.
+
+  //Title style
+
   titleText: {
     fontSize: 45,
     fontWeight: "600",

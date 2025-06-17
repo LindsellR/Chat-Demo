@@ -6,8 +6,8 @@ A mobile chat application built with **React Native** and **Expo**, allowing use
 
 -  User can enter their name
 -  User can select a background color for the chat screen
--  Smooth navigation between Start and Chat screens
--  Clean UI using StyleSheet,View,Text,TextInput,ImageBackground,Imageand TouchableOpacity from React Native
+-  Navigation between Start and Chat screens
+-  UI using StyleSheet,View,Text,TextInput,ImageBackground,Imageand TouchableOpacity from React Native
 
 ## Screens
 
@@ -26,6 +26,7 @@ A mobile chat application built with **React Native** and **Expo**, allowing use
 - Expo
 - React Navigation
 - JavaScript 
+- React Native Gifted Chat
 
 ## Setup & Installation
 
