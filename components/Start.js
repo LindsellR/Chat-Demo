@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
+
 // The navigation prop from React Navigation - used to navigate to the Chat screen and pass data (name and background color).
 const Start = ({ navigation }) => {
   const [name, setName] = useState(""); // Users name input
@@ -21,9 +22,11 @@ const Start = ({ navigation }) => {
 
   const image = require("../assets/Bgnd_Image.png"); // Background image for start screen
 
+
   const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"]; //Preset color options
 
   return (
+
     <KeyboardAvoidingView
       //Preventing keyboard from covering inputs on start screen for ios
       style={styles.container}
@@ -49,7 +52,9 @@ const Start = ({ navigation }) => {
             />
           </View>
 
+
           {/*Select a Background Color*/}
+
           <View style={styles.colorSection}>
             <Text style={styles.colorLabel}>Choose Background Color</Text>
             <View style={styles.colorOptions}>
@@ -90,9 +95,11 @@ const Start = ({ navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
   },
 
   image: {
@@ -102,7 +109,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: "6%",
   },
+
   //Title style
+
   titleText: {
     fontSize: 45,
     fontWeight: "600",
@@ -110,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
 
-  // Parent container holding input text color picker and start chat button.
+  // Parent container for input text color picker and start chat button.
   whiteBox: {
     backgroundColor: "#FFFFFF",
     width: "88%",
