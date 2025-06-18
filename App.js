@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 //import the screens
 import Start from "./components/Start";
@@ -12,16 +12,34 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //Create the Navigator
 const Stack = createNativeStackNavigator();
 
-// Main App component setting up navigation between Start and Chat screens
 const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Start">
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Chat" component={Chat} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+const firebaseConfig = {
+  apiKey: "AIzaSyBY0wHELz0hT2UGfi5hxvu4vMS1YJJR7KE",
+  authDomain: "chatapp-8d2ea.firebaseapp.com",
+  projectId: "chatapp-8d2ea",
+  storageBucket: "chatapp-8d2ea.appspot.com",
+  messagingSenderId: "63967366703",
+  appId: "1:63967366703:web:f6017b3dcb3e9d431700da",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+// Main App component setting up navigation between Start and Chat screens
+
+return (
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName="Start">
+      <Stack.Screen name="Start" component={Start} />
+      <Stack.Screen name="Chat">
+        {(props) => <Chat db={db} {...props} />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 };
 
 export default App;

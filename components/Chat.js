@@ -9,64 +9,63 @@ import { useState, useEffect } from "react";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import { StyleSheet, View, Platform, KeyboardAvoidingView } from "react-native";
 
+import { collection, addDoc, query, onSnapshot, orderBy } from "firebase/firestore";
+
 // React Navigation props.
-// route.params: includes the user's name and selected background color passed from Start.js
+// route.params: includes the user's name and selected background color passed from Start.js, and userID
 // navigation: used to update the screen title dynamically.
 
-
-const Chat = ({ route, navigation }) => {
-  const { name, bgColor } = route.params;
+const Chat = ({ route, navigation, db }) => {
+  const { name, bgColor, userID } = route.params;
 
   const [messages, setMessages] = useState([]);
 
-  // The chat appends new messages and sets previous messages in the chat history.
-  const onSend = (newMessages) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, newMessages)
-    );
+  // Add a new message to Firestore
+  const onSend = async (newMessages) => {
+    try {
+      await addDoc(collection(db, "messages"), newMessages[0]);
+    } catch(error) {
+            Alert.alert("Error sending message,. Please try again later");
+    }
   };
-
-  // Sets a default system and welcome message on initial load.
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-      {
-        _id: 2,
-        text: "You have entered the chat",
-        createdAt: new Date(),
-        system: true,
-      },
-    ]);
-  }, []);
-
- // On mount: update the navigation header title to the user's name
 
   useEffect(() => {
     navigation.setOptions({ title: name });
+
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+
+    const unsubMessages = onSnapshot(q, (docs) => {
+      let newMessages = [];
+      docs.forEach((doc) => {
+        newMessages.push({
+          _id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+        });
+      });
+      setMessages(newMessages);
+    });
+    return () => {
+       unsubMessages();
+    };
   }, []);
+
 
   //Custom chat bubble appearance
   const renderBubble = (props) => {
-   return <Bubble
-      {...props}
-      wrapperStyle={{
-        right: {
-          backgroundColor: "#000",
-        },
-        left: {
-          backgroundColor: "#FFF",
-        },
-      }}
-    />;
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: "#000",
+          },
+          left: {
+            backgroundColor: "#FFF",
+          },
+        }}
+      />
+    );
   };
 
   return (
@@ -77,7 +76,8 @@ const Chat = ({ route, navigation }) => {
         renderBubble={renderBubble}
         onSend={(messages) => onSend(messages)}
         user={{
-          _id: 1,
+          _id: userID,
+          name: name,
         }}
       />
       {/*Preventing keyboard from covering input field on Android*/}
