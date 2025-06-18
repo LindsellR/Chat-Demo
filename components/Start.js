@@ -1,5 +1,6 @@
 //Start.js - The start screen is where users will enter their name to join in the chat, choose a background color for their chat screen, and enter the chat.
 
+import { getAuth, signInAnonymously } from "firebase/auth";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -11,17 +12,40 @@ import {
   TouchableOpacity,
   Platform,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 
 // The navigation prop from React Navigation - used to navigate to the Chat screen and pass data (name and background color).
 const Start = ({ navigation }) => {
+  console.log("App received in Start.js:");
+  const auth = getAuth();
+  console.log("Rendering Start component, auth =", auth);
+
   const [name, setName] = useState(""); // Users name input
-
   const [bgColor, setBgColor] = useState("#FFFFFF"); // Selected chat background color
-
   const image = require("../assets/Bgnd_Image.png"); // Background image for start screen
-
   const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"]; //Preset color options
+
+  const signInUser = () => {
+    if (!name.trim()) {
+      Alert.alert("Please enter your name before starting the chat.");
+      return;
+    }
+    signInAnonymously(auth)
+      .then((result) => {
+        navigation.navigate("Chat", {
+          userID: result.user.uid,
+          name: name,
+          bgColor: bgColor,
+        });
+        Alert.alert("Signed in successfully!");
+      })
+      .catch((error) => {
+        Alert.alert("Unable to sign in. Error", error);
+      });
+  };
+
+  
 
   return (
     <KeyboardAvoidingView
@@ -30,7 +54,7 @@ const Start = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <Text style={styles.titleText}>Chat App</Text>{" "}
+        <Text style={styles.titleText}>Chat App</Text>
         {/* Working title for app */}
         {/* Form section: includes name input, color options, and start button  */}
         <View style={styles.whiteBox}>
@@ -46,6 +70,7 @@ const Start = ({ navigation }) => {
               placeholder="Enter Your Name"
               placeholderTextColor="rgba(117, 112, 131, 0.5)"
               accessibilityLabel="Enter Your Name"
+              accessibilityHint="Your name will be shown in the chat"
             />
           </View>
 
@@ -75,12 +100,10 @@ const Start = ({ navigation }) => {
           {/*Navigate to chat screen passing name and setting background color*/}
           <TouchableOpacity
             style={styles.button}
-            onPress={() =>
-              navigation.navigate("Chat", {
-                name: name,
-                bgColor: bgColor,
-              })
-            }
+            onPress={signInUser}
+            accessible={true}
+            accessibilityLabel="Start chatting"
+            accessibilityHint="Navigates to the chat screen"
           >
             <Text style={styles.buttonText}>Start Chatting</Text>
           </TouchableOpacity>
