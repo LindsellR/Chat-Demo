@@ -26,9 +26,14 @@ const Start = ({ navigation }) => {
 
   const [name, setName] = useState(""); // Users name input
   const [bgColor, setBgColor] = useState("#FFFFFF"); // Selected chat background color
+
   const image = require("../assets/Bgnd_Image.png"); // Background image for start screen
   const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"]; //Preset color options
 
+    /**
+   * Signs the user in anonymously using Firebase Auth
+   * and navigates to the Chat screen with their selected preferences.
+   */
   const signInUser = () => {
     if (!name.trim()) {
       Alert.alert("Please enter your name before starting the chat.");
@@ -58,11 +63,13 @@ const Start = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <Text style={styles.titleText}>Chat App</Text>
         {/* Working title for app */}
-        {/* Form section: includes name input, color options, and start button  */}
+        <Text style={styles.titleText}>Chat App</Text>
+
+        {/* Form section: includes name input, color options, and chat button  */}
         <View style={styles.whiteBox}>
           <View style={styles.inputWrapper}>
+            {/* Name input with icon */}
             <Image
               source={require("../assets/icon2.png")}
               style={styles.icon}
@@ -79,7 +86,7 @@ const Start = ({ navigation }) => {
           </View>
 
 
-          {/*Select a Background Color*/}
+          {/* Background Color Selection */}
 
           <View style={styles.colorSection}>
             <Text style={styles.colorLabel}>Choose Background Color</Text>
@@ -103,7 +110,7 @@ const Start = ({ navigation }) => {
               ))}
             </View>
           </View>
-          {/*Navigate to chat screen passing name and setting background color*/}
+          {/* Start Chat button that navigates to the Chat screen */}
           <TouchableOpacity
             style={styles.button}
             onPress={signInUser}

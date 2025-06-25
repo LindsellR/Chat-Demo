@@ -5,7 +5,13 @@
 import { getAuth } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
-import { StyleSheet, View, Platform, KeyboardAvoidingView, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Platform,
+  KeyboardAvoidingView,
+  Alert,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -27,27 +33,29 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
   const { name, bgColor, userID: routeUserID } = route.params;
   const [userID, setUserID] = useState(routeUserID || null);
 
-useEffect(() => {
-  if (!userID) {
-    try {
-      const auth = getAuth();
-      const currentUID = auth.currentUser?.uid;
-      if (currentUID) {
-        setUserID(currentUID);
-        console.log("Fallback userID from Firebase Auth:", currentUID);
-      } else {
-        console.warn("No authenticated user found in Firebase.");
+  // Attempt fallback to retrieve userID from Firebase Auth if not passed via route
+  useEffect(() => {
+    if (!userID) {
+      try {
+        const auth = getAuth();
+        const currentUID = auth.currentUser?.uid;
+        if (currentUID) {
+          setUserID(currentUID);
+          console.log("Fallback userID from Firebase Auth:", currentUID);
+        } else {
+          console.warn("No authenticated user found in Firebase.");
+        }
+      } catch (err) {
+        console.error("Error getting userID from Firebase Auth:", err);
       }
-    } catch (err) {
-      console.error("Error getting userID from Firebase Auth:", err);
     }
-  }
-}, []);
+  }, []);
 
   const [messages, setMessages] = useState([]);
 
   let unsubMessages;
 
+  // Cache messages to AsyncStorage for offline support
   const cachedMessages = async (messagesToCache) => {
     try {
       await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
@@ -56,6 +64,7 @@ useEffect(() => {
     }
   };
 
+  // Load cached messages from AsyncStorage when offline
   const loadCachedMessages = async () => {
     try {
       const cachedMessages = await AsyncStorage.getItem("messages");
@@ -73,7 +82,7 @@ useEffect(() => {
       Alert.alert("Error sending message,. Please try again later");
     }
   };
-  //Custom chat bubble appearance
+  // Customizes appearance of message bubbles
   const renderBubble = (props) => {
     return (
       <Bubble
@@ -90,18 +99,18 @@ useEffect(() => {
     );
   };
 
+  // Disable the input toolbar when offline
   const renderInputToolbar = (props) => {
     if (isConnected) return <InputToolbar {...props} />;
     else return null;
   };
 
+  // Set the screen title and handle message sync with Firestore
   useEffect(() => {
     navigation.setOptions({ title: name });
 
     if (isConnected) {
-      // unregister current onSnapshot() listener to avoid registering multiple listeners when
-      // useEffect code is re-executed.
-
+      // unregister current onSnapshot() listener to avoid registering multiple listeners when useEffect code is re-executed.
       const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
       unsubMessages = onSnapshot(q, (documentsSnapshot) => {
         let newMessages = [];
@@ -117,24 +126,25 @@ useEffect(() => {
       });
     } else loadCachedMessages();
 
-    //clean up code
+    //clean up firestore listener on unmount
     return () => {
       if (unsubMessages) unsubMessages();
     };
   }, [isConnected]);
 
+  // Renders the "+" button and its options
   const renderCustomActions = (props) => {
-  return (
-    <CustomActions
-      storage={storage}
-      userID={userID}
-      onSend={onSend}
-      {...props}
-    />
-  );
-};
+    return (
+      <CustomActions
+        storage={storage}
+        userID={userID}
+        onSend={onSend}
+        {...props}
+      />
+    );
+  };
 
-
+  // If the message includes location data, show a map preview
   const renderCustomView = (props) => {
     const { currentMessage } = props;
     if (currentMessage.location) {
