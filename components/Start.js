@@ -1,3 +1,5 @@
+
+
 //Start.js - The start screen is where users will enter their name to join in the chat, choose a background color for their chat screen, and enter the chat.
 
 import { getAuth, signInAnonymously } from "firebase/auth";

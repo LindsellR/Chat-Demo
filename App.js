@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 //import the screens
 import Start from "./components/Start";
@@ -41,6 +42,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
+const storage = getStorage(app, "gs://chatapp-8d2ea.firebasestorage.app")
+
 // Main App component setting up navigation between Start and Chat screens
 
 return (
@@ -48,7 +51,7 @@ return (
     <Stack.Navigator initialRouteName="Start">
       <Stack.Screen name="Start" component={Start} />
       <Stack.Screen name="Chat">
-        {(props) => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+        {(props) => <Chat isConnected={connectionStatus.isConnected} db={db} storage = {storage} {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   </NavigationContainer>

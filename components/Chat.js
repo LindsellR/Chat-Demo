@@ -2,10 +2,11 @@
 
 // This screen displays the chat interface. It receives the user's name and selected background color from the Start screen and renders the GiftedChat UI.
 // The user can send and receive messages, with system messages and user messages shown in different styles.
-
+import { getAuth } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
-import { StyleSheet, View, Platform, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, Platform, KeyboardAvoidingView, Alert } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
@@ -16,12 +17,32 @@ import {
   orderBy,
 } from "firebase/firestore";
 
+import CustomActions from "./CustomActions";
+
 // React Navigation props.
 // route.params: includes the user's name and selected background color passed from Start.js, and userID
 // navigation: used to update the screen title dynamically.
 
-const Chat = ({ route, navigation, db, isConnected }) => {
-  const { name, bgColor, userID } = route.params;
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
+  const { name, bgColor, userID: routeUserID } = route.params;
+  const [userID, setUserID] = useState(routeUserID || null);
+
+useEffect(() => {
+  if (!userID) {
+    try {
+      const auth = getAuth();
+      const currentUID = auth.currentUser?.uid;
+      if (currentUID) {
+        setUserID(currentUID);
+        console.log("Fallback userID from Firebase Auth:", currentUID);
+      } else {
+        console.warn("No authenticated user found in Firebase.");
+      }
+    } catch (err) {
+      console.error("Error getting userID from Firebase Auth:", err);
+    }
+  }
+}, []);
 
   const [messages, setMessages] = useState([]);
 
@@ -102,6 +123,44 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     };
   }, [isConnected]);
 
+  const renderCustomActions = (props) => {
+  return (
+    <CustomActions
+      storage={storage}
+      userID={userID}
+      onSend={onSend}
+      {...props}
+    />
+  );
+};
+
+
+  const renderCustomView = (props) => {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      console.log("Custom view message:", currentMessage);
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          initialRegion={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: currentMessage.location.latitude,
+              longitude: currentMessage.location.longitude,
+            }}
+          />
+        </MapView>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
       <GiftedChat
@@ -109,6 +168,8 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
         onSend={(messages) => onSend(messages)}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
         user={{
           _id: userID,
           name: name,
