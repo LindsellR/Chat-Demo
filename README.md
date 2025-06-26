@@ -109,15 +109,14 @@ Or
 press i to launch iOS simulator (macOS only)
 
 ## Project Structure
-
+```
 /assets              # Images and icons
 /components
   └── Chat.js        # Main chat screen
   └── Start.js       # Welcome screen
   └── CustomActions.js # Image & location picker
 App.js               # App entry point, Firebase setup, navigation
-
-
+```
 ---
 
 ## Dependencies
