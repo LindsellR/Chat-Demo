@@ -91,24 +91,29 @@ const firebaseConfig = {
 npm start
 
 Or
+
 npx expo start
 
 This will launch the Expo developer tools in your browser.
 
 ### 2. Run on Emulator or Device
 Scan the QR code with Expo Go (iOS/Android) after it has launched in the console
+
 Or 
+
 press a to launch Android emulator
+
 Or 
 press i to launch iOS simulator (macOS only)
 
  Project Structure
-/assets              # Images and icons
-/components
-  └── Chat.js        # Main chat screen
-  └── Start.js       # Welcome screen
-  └── CustomActions.js # Image & location picker
-App.js               # App entry point, Firebase setup, navigation
+
+/assets              # Images and icons 
+/components 
+  └── Chat.js        # Main chat screen 
+  └── Start.js       # Welcome screen 
+  └── CustomActions.js # Image & location picker 
+App.js               # App entry point, Firebase setup, navigation 
 
 ---
 
