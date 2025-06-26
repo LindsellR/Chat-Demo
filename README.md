@@ -75,6 +75,7 @@ npm install
 ## 3. Insert Firebase Config
 Open App.js and update the firebaseConfig:
 
+```
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -83,7 +84,7 @@ const firebaseConfig = {
   messagingSenderId: "YOUR_SENDER_ID",
   appId: "YOUR_APP_ID",
 };
-
+```
 ---
 
 ## Running the App
@@ -104,16 +105,17 @@ Or
 press a to launch Android emulator
 
 Or 
+
 press i to launch iOS simulator (macOS only)
 
- Project Structure
+## Project Structure
 
-/assets              # Images and icons 
-/components 
-  └── Chat.js        # Main chat screen 
-  └── Start.js       # Welcome screen 
-  └── CustomActions.js # Image & location picker 
-App.js               # App entry point, Firebase setup, navigation 
+/assets              # Images and icons  
+/components  
+  └── Chat.js        # Main chat screen  
+  └── Start.js       # Welcome screen  
+  └── CustomActions.js # Image & location picker  
+App.js               # App entry point, Firebase setup, navigation  
 
 ---
 
