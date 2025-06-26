@@ -40,7 +40,7 @@ This screen displays the chat interface. It receives the user's name and selecte
 - **[Expo CLI](https://docs.expo.dev/get-started/installation/)**  
 - **[Firebase](https://firebase.google.com/)**
 - Install via:
-  bash
+  (bash)
   npm install -g expo-cli
 
 - Android Studio (for Android emulators)
@@ -54,7 +54,7 @@ cd Chat-Demo
 
 ### 3. Install Dependencies
 Install all required dependencies:
-bash
+(bash)
 npm install
 
 ---
