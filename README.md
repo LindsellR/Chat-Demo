@@ -33,6 +33,21 @@ This screen displays the chat interface. It receives the user's name and selecte
 
 ---
 
+## Dependencies
+
+The project uses the following main libraries:
+
+react-native-gifted-chat: For the chat UI.
+- firebase: For backend services including authentication, Firestore, and storage.
+- expo-image-picker: To allow users to pick images from their device.
+- expo-location: To access the device's location.
+- @react-native-async-storage/async-storage: For local storage of messages when offline.
+- react-native-maps: To display maps for location messages.
+- @expo/react-native-action-sheet: To provide action sheets for selecting images or location.
+Ensure all dependencies are installed by running npm install as mentioned in the installation steps
+
+---
+
 ## Setup & Installation
 
 ### 1. Prerequisites
@@ -48,13 +63,14 @@ This screen displays the chat interface. It receives the user's name and selecte
 You can also use Expo Go on your mobile device for live testing.
 
 ### 2. Clone the Project
-
-git clone https://github.com/LindsellR/Chat-Demo
+(Terminal)  
+git clone https://github.com/LindsellR/Chat-Demo  
 cd Chat-Demo
 
 ### 3. Install Dependencies
 Install all required dependencies:
-(bash)
+
+(bash)  
 npm install
 
 ---
@@ -63,28 +79,28 @@ npm install
 
 ### 1. Create a Firebase Project
 - Go to Firebase Console
-- Create a new project
+- Click on Create a new project
 
 ### 2. Enable Authentication 
 - Click Get Started 
 - Sign-in method → Anonymous → Enable
 
-### 3. Enable Firestore Database → 
-- In Firestore Overview click on Build in the left colum
+### 3. Enable Firestore Database 
+- In Firestore Overview in the left side column click on Build 
 - In the dropdown menu click "Firestore Database"
 - Click on "Create Database"
 - Click Next
-- In the rules change "allow read, write: if false;" to "if true" and click publish.
+- In the rules, change "allow read, write: if false;" to "if true" and click publish.
 
 ### 4. Enable Firebase Storage 
 - In Firebase project overview click on Build in the left column
 - Click on storage in the dropdown list
 - Click Upgrade project (You need to be in the blaze plan.) 
-- Create a cloud billing account (Won't cost anything under 5gb)
+- Create a cloud billing account (Shouldn't cost anything under 5gb)
 - In the Storage View of firebase, click the Rules tab at the top of page.
 - Change "allow read, write: if false;" to "if true" and click publish.
 - Click the Files tab at the top of the page.
-- Copy the link to your storage (Should be next to the link icon at the left of the blue UploadFiles button). It should read "gs://name-of-your-app.firebase.app".
+- Copy the link to your storage (Should be next to the link icon at the left, opposite the blue Upload Files button. It should read "gs://name-of-your-app.firebase.app").
 - Go to your editor and open App.js. 
 - Paste your storage link as shown. 
 ```
@@ -97,7 +113,7 @@ const storage = getStorage(app, "gs://paste-your-storage-link-here");
 - Fill in name (eg Chat-App) and click register to generate configuration code
 - Copy your Firebase config object(const firebase.Config)
 
-## 4. Insert Firebase Config
+### 6. Insert Firebase Config
 Open App.js in your editor, find the config and update the firebaseConfig:
 
 ```
@@ -127,11 +143,11 @@ Scan the QR code with Expo Go (iOS/Android) after it has launched in the console
 
 Or 
 
-press a to launch Android emulator
+press 'a' to launch Android emulator
 
 Or 
 
-press i to launch iOS simulator (macOS only)
+press 'i' to launch iOS simulator (macOS only)
 
 ## Project Structure
 ```
@@ -144,23 +160,8 @@ App.js               # App entry point, Firebase setup, navigation
 ```
 ---
 
-## Dependencies
-
-The project uses the following main libraries:
-
-react-native-gifted-chat: For the chat UI.
-- firebase: For backend services including authentication, Firestore, and storage.
-- expo-image-picker: To allow users to pick images from their device.
-- expo-location: To access the device's location.
-- @react-native-async-storage/async-storage: For local storage of messages when offline.
-- react-native-maps: To display maps for location messages.
-- @expo/react-native-action-sheet: To provide action sheets for selecting images or location.
-Ensure all dependencies are installed by running npm install as mentioned in the installation steps
-
----
-
 ### Notes
-Authentication is currently anonymous only. For other auth types (Google, email/password), modify the Start.jslogic.
+Authentication is currently anonymous only. For other auth types (Google, email/password), modify the Start.js logic.
 The app uses AsyncStorage to cache messages for offline viewing.
 Only minimal Firebase rules are configured. Consider updating Firestore/Storage rules before deploying to production.
 
