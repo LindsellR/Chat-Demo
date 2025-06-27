@@ -64,16 +64,41 @@ npm install
 ### 1. Create a Firebase Project
 - Go to Firebase Console
 - Create a new project
-- Enable Authentication → Sign-in method → Anonymous
-- Enable Firestore Database
-- Enable Firebase Storage 
 
-### 2. Add Firebase Web App
--  Go to Project Settings → General → Add App → Web
--  Register and copy your Firebase config object
+### 2. Enable Authentication 
+- Click Get Started 
+- Sign-in method → Anonymous → Enable
 
-## 3. Insert Firebase Config
-Open App.js and update the firebaseConfig:
+### 3. Enable Firestore Database → 
+- In Firestore Overview click on Build in the left colum
+- In the dropdown menu click "Firestore Database"
+- Click on "Create Database"
+- Click Next
+- In the rules change "allow read, write: if false;" to "if true" and click publish.
+
+### 4. Enable Firebase Storage 
+- In Firebase project overview click on Build in the left column
+- Click on storage in the dropdown list
+- Click Upgrade project (You need to be in the blaze plan.) 
+- Create a cloud billing account (Won't cost anything under 5gb)
+- In the Storage View of firebase, click the Rules tab at the top of page.
+- Change "allow read, write: if false;" to "if true" and click publish.
+- Click the Files tab at the top of the page.
+- Copy the link to your storage (Should be next to the link icon at the left of the blue UploadFiles button). It should read "gs://name-of-your-app.firebase.app".
+- Go to your editor and open App.js. 
+- Paste your storage link as shown. 
+```
+const storage = getStorage(app, "gs://paste-your-storage-link-here");
+```
+
+### 5. Add Firebase Web App
+- In the Firebase overview click on the gear icon at top left of page, next to "Project Overview"
+- Click on Project Settings → General → Add App → Web icon (</>)
+- Fill in name (eg Chat-App) and click register to generate configuration code
+- Copy your Firebase config object(const firebase.Config)
+
+## 4. Insert Firebase Config
+Open App.js in your editor, find the config and update the firebaseConfig:
 
 ```
 const firebaseConfig = {
