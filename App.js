@@ -24,13 +24,18 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   const connectionStatus = useNetInfo();
   const firebaseConfig = {
-    apiKey: "AIzaSyBY0wHELz0hT2UGfi5hxvu4vMS1YJJR7KE",
-    authDomain: "chatapp-8d2ea.firebaseapp.com",
-    projectId: "chatapp-8d2ea",
-    storageBucket: "chatapp-8d2ea.appspot.com",
-    messagingSenderId: "63967366703",
-    appId: "1:63967366703:web:f6017b3dcb3e9d431700da",
+  //Your firebase config goes here
   };
+
+
+  // Initialize Firebase app
+  const app = initializeApp(firebaseConfig);
+
+  // Initialize Firestore (to store chat messages)
+  const db = getFirestore(app);
+
+  // Initialize Firebase Storage (used to store images sent in chat)
+  const storage = getStorage(app, /*your firebase storage link goes here*/);
 
   useEffect(() => {
     // Enable/disable Firestore network based on internet connectivity (for offline support or caching)
@@ -42,14 +47,6 @@ const App = () => {
     }
   }, [connectionStatus.isConnected]);
 
-  // Initialize Firebase app
-  const app = initializeApp(firebaseConfig);
-
-  // Initialize Firestore (to store chat messages)
-  const db = getFirestore(app);
-
-  // Initialize Firebase Storage (used to store images sent in chat)
-  const storage = getStorage(app, "gs://chatapp-8d2ea.firebasestorage.app");
 
   // Main App component setting up navigation between Start and Chat screens
 
