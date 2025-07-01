@@ -24,9 +24,8 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   const connectionStatus = useNetInfo();
   const firebaseConfig = {
-  //Your firebase config goes here
+    //Your firebase config goes here
   };
-
 
   // Initialize Firebase app
   const app = initializeApp(firebaseConfig);
@@ -35,7 +34,7 @@ const App = () => {
   const db = getFirestore(app);
 
   // Initialize Firebase Storage (used to store images sent in chat)
-  const storage = getStorage(app, /*your firebase storage link goes here*/);
+  const storage = getStorage(app /*your firebase storage link goes here*/);
 
   useEffect(() => {
     // Enable/disable Firestore network based on internet connectivity (for offline support or caching)
@@ -46,7 +45,6 @@ const App = () => {
       enableNetwork(db);
     }
   }, [connectionStatus.isConnected]);
-
 
   // Main App component setting up navigation between Start and Chat screens
 
