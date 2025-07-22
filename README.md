@@ -167,6 +167,4 @@ Only minimal Firebase rules are configured. Consider updating Firestore/Storage 
 
 ---
 
-### License
-MIT – free to use, fork, and modify.
 
